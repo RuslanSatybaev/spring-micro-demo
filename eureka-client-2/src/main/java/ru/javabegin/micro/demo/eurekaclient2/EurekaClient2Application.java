@@ -1,4 +1,4 @@
-package ru.javabegin.micro.demo.eurekaclient2;
+package ru.javabegin.micro.planner.eurekaclient2;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

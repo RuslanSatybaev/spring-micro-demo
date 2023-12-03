@@ -1,4 +1,4 @@
-package ru.javabegin.micro.demo.apigateway;
+package ru.javabegin.micro.planner.apigateway;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
