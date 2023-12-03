@@ -1,7 +1,7 @@
 rootProject.name = 'planner-microservices'
 
 includeBuild 'planner-server'
-includeBuild 'api-gateway'
+includeBuild 'planner-gateway'
 includeBuild 'eureka-client'
 includeBuild 'eureka-client-2'
 includeBuild 'planner-config'
