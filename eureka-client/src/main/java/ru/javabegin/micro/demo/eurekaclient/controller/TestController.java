@@ -1,4 +1,4 @@
-package ru.javabegin.micro.planner.eurekaclient.controller;
+package ru.javabegin.micro.todo.eurekaclient.controller;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;

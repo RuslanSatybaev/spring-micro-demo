@@ -1,4 +1,4 @@
-package ru.javabegin.micro.planner.entity;
+package ru.javabegin.micro.todo.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

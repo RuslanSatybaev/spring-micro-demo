@@ -1,7 +1,5 @@
-package ru.javabegin.micro.planner.entity;
+package ru.javabegin.micro.todo.entity;
 
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,24 +10,23 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-
 /*
 
-справочноное значение - категория пользователя
+справочноное значение - приоритет пользователя
 может использовать для своих задач
-содержит статистику по каждой категории
 
  */
 
+
 @Entity
-@Table(name = "category", schema = "todolist", catalog = "postgres")
+@Table(name = "priority", schema = "todolist", catalog = "postgres")
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
 @Cacheable
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Category implements Serializable {
+public class Priority implements Serializable {
 
     // указываем, что поле заполняется в БД
     // нужно, когда добавляем новый объект и он возвращается уже с новым id
@@ -38,12 +35,7 @@ public class Category implements Serializable {
     private Long id;
 
     private String title;
-
-    @Column(name = "completed_count", updatable = false) // т.к. это поле высчитывается автоматически в триггерах - вручную его не обновляем (updatable = false)
-    private Long completedCount;
-
-    @Column(name = "uncompleted_count", updatable = false) // т.к. это поле высчитывается автоматически в триггерах - вручную его не обновляем (updatable = false)
-    private Long uncompletedCount;
+    private String color;
 
     @Column(name = "user_id")
     private Long userId;
@@ -52,8 +44,8 @@ public class Category implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Category category = (Category) o;
-        return id.equals(category.id);
+        Priority priority = (Priority) o;
+        return id.equals(priority.id);
     }
 
     @Override

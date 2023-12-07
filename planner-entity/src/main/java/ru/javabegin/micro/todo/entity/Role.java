@@ -1,4 +1,4 @@
-package ru.javabegin.micro.planner.entity;
+package ru.javabegin.micro.todo.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
