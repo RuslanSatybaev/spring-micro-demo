@@ -1,5 +1,4 @@
-package ru.javabegin.micro.todo.entity;
-
+package ru.javabegin.micro.planner.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,33 +7,35 @@ import lombok.Setter;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 /*
 
-общая статистика по задачам (незвисимо от категорий задач)
+справочноное значение - приоритет пользователя
+может использовать для своих задач
 
  */
 
+
 @Entity
-@Table(name = "stat", schema = "todolist", catalog = "postgres")
+@Table(name = "priority", schema = "todolist", catalog = "postgres")
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
 @Cacheable
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Stat { // в этой таблице всего 1 запись, которая обновляется (но никогда не удаляется)
+public class Priority implements Serializable {
 
-    @Id
+    // указываем, что поле заполняется в БД
+    // нужно, когда добавляем новый объект и он возвращается уже с новым id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
 
-    @Column(name = "completed_total", updatable = false)
-    private Long completedTotal; // значение задается в триггере в БД
-
-    @Column(name = "uncompleted_total", updatable = false)
-    private Long uncompletedTotal; // значение задается в триггере в БД
+    private String title;
+    private String color;
 
     @Column(name = "user_id")
     private Long userId;
@@ -43,12 +44,17 @@ public class Stat { // в этой таблице всего 1 запись, к�
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Stat stat = (Stat) o;
-        return id.equals(stat.id);
+        Priority priority = (Priority) o;
+        return id.equals(priority.id);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return title;
     }
 }

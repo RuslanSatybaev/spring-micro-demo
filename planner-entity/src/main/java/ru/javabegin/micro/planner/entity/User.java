@@ -1,4 +1,4 @@
-package ru.javabegin.micro.todo.entity;
+package ru.javabegin.micro.planner.entity;
 
 
 

@@ -27,6 +27,11 @@ dependencies {
 
     implementation 'ru.javabegin.micro.planner:planner-entity'
 
+    // lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+
     // драйвер БД
     implementation 'org.postgresql:postgresql'
 
