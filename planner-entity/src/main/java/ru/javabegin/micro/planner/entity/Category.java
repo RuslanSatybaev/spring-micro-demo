@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,13 +20,11 @@ import java.util.Objects;
  */
 
 @Entity
-@Table(name = "category", schema = "todolist", catalog = "postgres")
+@Table(name = "category", schema = "todo", catalog = "planner_todo")
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Category implements Serializable {
 
     // указываем, что поле заполняется в БД

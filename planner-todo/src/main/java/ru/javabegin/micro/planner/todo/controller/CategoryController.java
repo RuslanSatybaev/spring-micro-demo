@@ -26,7 +26,7 @@ import java.util.NoSuchElementException;
 public class CategoryController {
 
     // доступ к данным из БД
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
 
     // используем автоматическое внедрение экземпляра класса через конструктор
     // не используем @Autowired ля переменной класса, т.к. "Field injection is not recommended "

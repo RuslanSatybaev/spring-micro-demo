@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -19,13 +18,11 @@ import java.util.Set;
 
 
 @Entity
-@Table(name = "role_data", schema = "users", catalog = "postgres")
+@Table(name = "role_data", schema = "users", catalog = "planner_user")
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class Role {
 
 	@Id

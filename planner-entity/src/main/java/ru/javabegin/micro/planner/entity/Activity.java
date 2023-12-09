@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -19,13 +18,11 @@ import java.util.Objects;
 
 
 @Entity
-@Table(name = "activity", schema = "todolist", catalog = "postgres")
+@Table(name = "activity", schema = "todo", catalog = "planner_todo")
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Activity { // название таблицы будет браться автоматически по названию класса с маленькой буквы: activity
 
     @Id
@@ -38,7 +35,12 @@ public class Activity { // название таблицы будет брать
     @Column(updatable = false)
     private String uuid; // создается только один раз с помощью триггера в БД
 
-    @Column(name = "user_id")
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @MapsId
+//    @JoinColumn(name = "user_id", referencedColumnName = "id")
+//    private User user;
+
+    @Column(name="user_id")
     private Long userId;
 
 

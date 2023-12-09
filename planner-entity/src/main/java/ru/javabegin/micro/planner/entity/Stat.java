@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -17,13 +16,11 @@ import java.util.Objects;
  */
 
 @Entity
-@Table(name = "stat", schema = "todolist", catalog = "postgres")
+@Table(name = "stat", schema = "todo", catalog = "planner_todo")
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Stat { // в этой таблице всего 1 запись, которая обновляется (но никогда не удаляется)
 
     @Id
@@ -36,7 +33,13 @@ public class Stat { // в этой таблице всего 1 запись, к�
     @Column(name = "uncompleted_total", updatable = false)
     private Long uncompletedTotal; // значение задается в триггере в БД
 
-    @Column(name = "user_id")
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    @MapsId
+//    @JoinColumn(name = "user_id", referencedColumnName = "id") // по каким полям связывать (foreign key)
+//    private User user;
+
+    @Column(name="user_id")
     private Long userId;
 
     @Override

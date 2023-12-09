@@ -13,20 +13,17 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "user_data", schema = "users", catalog = "postgres")
+@Table(name = "user_data", schema = "todo", catalog = "planner_todo")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class User {
 
     @Id

@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,13 +18,11 @@ import java.util.Objects;
 
 
 @Entity
-@Table(name = "priority", schema = "todolist", catalog = "postgres")
+@Table(name = "priority", schema = "todo", catalog = "planner_todo")
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Priority implements Serializable {
 
     // указываем, что поле заполняется в БД
@@ -37,7 +34,12 @@ public class Priority implements Serializable {
     private String title;
     private String color;
 
-    @Column(name = "user_id")
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_id", referencedColumnName = "id") // по каким полям связывать (foreign key)
+//    private User user;
+
+    @Column(name="user_id")
     private Long userId;
 
     @Override
