@@ -22,8 +22,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     void deleteByEmail(String email); // строгое соотвествие email (не вхождени)
 
     @Query("SELECT u FROM User u where " +
-            "(:email is null or :email='' or lower(u.email) like lower(concat('%', :email,'%'))) and" +
-            " (:username is null or :username='' or lower(u.username) like lower(concat('%', :username,'%')))"
+            "(:email is null or :email='' or lower(u.email) like lower(concat('%', :email,'%'))) or " +
+            "(:username is null or :username='' or lower(u.username) like lower(concat('%', :username,'%')))"
     )
 
         // искать по всем переданным параметрам (пустые параметры учитываться не будут)
