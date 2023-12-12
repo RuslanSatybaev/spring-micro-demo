@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.javabegin.micro.planner.entity.Category;
 import ru.javabegin.micro.planner.todo.search.CategorySearchValues;
 import ru.javabegin.micro.planner.todo.service.CategoryService;
-import ru.javabegin.micro.planner.utils.resttemplate.UserRestBuilder;
+import ru.javabegin.micro.planner.utils.rest.resttemplate.UserRestBuilder;
+import ru.javabegin.micro.planner.utils.rest.webclient.UserWebClientBuilder;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -27,17 +28,21 @@ import java.util.NoSuchElementException;
 public class CategoryController {
 
     // доступ к данным из БД
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
 
     // микросервисы для работы с пользователями
     private UserRestBuilder userRestBuilder;
 
+    // микросервисы для работы с пользователями
+    private final UserWebClientBuilder userWebClientBuilder;
 
     // используем автоматическое внедрение экземпляра класса через конструктор
     // не используем @Autowired ля переменной класса, т.к. "Field injection is not recommended "
-    public CategoryController(CategoryService categoryService, UserRestBuilder userRestBuilder) {
+    public CategoryController(CategoryService categoryService, UserRestBuilder userRestBuilder,
+                              UserWebClientBuilder userWebClientBuilder) {
         this.categoryService = categoryService;
         this.userRestBuilder = userRestBuilder;
+        this.userWebClientBuilder = userWebClientBuilder;
     }
 
     @PostMapping("/all")
@@ -51,7 +56,8 @@ public class CategoryController {
 
         // проверка на обязательные параметры
         if (category.getId() != null && category.getId() != 0) { // это означает, что id заполнено
-            // id создается автоматически в БД (autoincrement), поэтому его передавать не нужно, иначе может быть конфликт уникальности значения
+            // id создается автоматически в БД (autoincrement), поэтому его передавать не нужно,
+            // иначе может быть конфликт уникальности значения
             return new ResponseEntity("redundant param: id MUST be null", HttpStatus.NOT_ACCEPTABLE);
         }
 
@@ -60,8 +66,13 @@ public class CategoryController {
             return new ResponseEntity("missed param: title MUST be not null", HttpStatus.NOT_ACCEPTABLE);
         }
 
+//        // если такой пользователь существует
+//        if (userRestBuilder.userExists(category.getUserId())) { // вызываем микросервис из другого модуля
+//            return ResponseEntity.ok(categoryService.add(category)); // возвращаем добавленный объект с заполненным ID
+//        }
+
         // если такой пользователь существует
-        if (userRestBuilder.userExists(category.getUserId())) { // вызываем микросервис из другого модуля
+        if (userWebClientBuilder.userExists(category.getUserId())) { // вызываем микросервис из другого модуля
             return ResponseEntity.ok(categoryService.add(category)); // возвращаем добавленный объект с заполненным ID
         }
 
@@ -119,7 +130,8 @@ public class CategoryController {
         }
 
         // поиск категорий пользователя по названию
-        List<Category> list = categoryService.findByTitle(categorySearchValues.getTitle(), categorySearchValues.getUserId());
+        List<Category> list = categoryService.findByTitle(
+                categorySearchValues.getTitle(), categorySearchValues.getUserId());
 
         return ResponseEntity.ok(list);
     }

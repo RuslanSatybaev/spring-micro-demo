@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.javabegin.micro.planner.entity.Priority;
 import ru.javabegin.micro.planner.todo.search.PrioritySearchValues;
 import ru.javabegin.micro.planner.todo.service.PriorityService;
-import ru.javabegin.micro.planner.utils.resttemplate.UserRestBuilder;
+import ru.javabegin.micro.planner.utils.rest.resttemplate.UserRestBuilder;
 
 import java.util.List;
 import java.util.NoSuchElementException;

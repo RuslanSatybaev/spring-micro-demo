@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.javabegin.micro.planner.entity.Task;
 import ru.javabegin.micro.planner.todo.search.TaskSearchValues;
 import ru.javabegin.micro.planner.todo.service.TaskService;
-import ru.javabegin.micro.planner.utils.resttemplate.UserRestBuilder;
+import ru.javabegin.micro.planner.utils.rest.resttemplate.UserRestBuilder;
 
 import java.text.ParseException;
 import java.util.Calendar;
