@@ -1,16 +1,12 @@
 package ru.javabegin.micro.planner.todo.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.javabegin.micro.planner.entity.Category;
+import ru.javabegin.micro.planner.todo.feign.UserFeignClient;
 import ru.javabegin.micro.planner.todo.search.CategorySearchValues;
 import ru.javabegin.micro.planner.todo.service.CategoryService;
 import ru.javabegin.micro.planner.utils.rest.resttemplate.UserRestBuilder;
@@ -29,25 +25,22 @@ import java.util.NoSuchElementException;
 
 */
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/category") // базовый URI
 public class CategoryController {
 
     // доступ к данным из БД
     private final CategoryService categoryService;
+
     // микросервисы для работы с пользователями
     private final UserWebClientBuilder userWebClientBuilder;
+
     // микросервисы для работы с пользователями
     private UserRestBuilder userRestBuilder;
 
-    // используем автоматическое внедрение экземпляра класса через конструктор
-    // не используем @Autowired ля переменной класса, т.к. "Field injection is not recommended "
-    public CategoryController(CategoryService categoryService, UserRestBuilder userRestBuilder,
-                              UserWebClientBuilder userWebClientBuilder) {
-        this.categoryService = categoryService;
-        this.userRestBuilder = userRestBuilder;
-        this.userWebClientBuilder = userWebClientBuilder;
-    }
+    // клинет для вызова мс
+    private UserFeignClient userFeignClient;
 
     @PostMapping("/all")
     public List<Category> findAll(@RequestBody Long userId) {
@@ -80,8 +73,14 @@ public class CategoryController {
 //            return ResponseEntity.ok(categoryService.add(category)); // возвращаем добавленный объект с заполненным ID
 //        }
 
-        // подписываем на результат
-        userWebClientBuilder.userExistsAsync(category.getUserId()).subscribe(user -> System.out.println("user = " + user));
+//        // подписываем на результат
+//        userWebClientBuilder.userExistsAsync(category.getUserId()).subscribe(
+//                user -> System.out.println("user = " + user));
+
+        // вызов мс через интерфейс
+        if (userFeignClient.findUserById(category.getUserId()) != null) {
+            return ResponseEntity.ok(categoryService.add(category));
+        }
 
         // если пользователя НЕ существует
         return new ResponseEntity("user id=" + category.getUserId() + " not found", HttpStatus.NOT_ACCEPTABLE);
