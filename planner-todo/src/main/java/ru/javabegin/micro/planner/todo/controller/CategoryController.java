@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.javabegin.micro.planner.entity.Category;
+import ru.javabegin.micro.planner.entity.User;
 import ru.javabegin.micro.planner.todo.feign.UserFeignClient;
 import ru.javabegin.micro.planner.todo.search.CategorySearchValues;
 import ru.javabegin.micro.planner.todo.service.CategoryService;
@@ -78,7 +79,12 @@ public class CategoryController {
 //                user -> System.out.println("user = " + user));
 
         // вызов мс через интерфейс
-        if (userFeignClient.findUserById(category.getUserId()) != null) {
+        ResponseEntity<User> result = userFeignClient.findUserById(category.getUserId());
+        if (result == null) {
+            return new ResponseEntity("Система пользователей недоступна, попробуйте позже", HttpStatus.SERVICE_UNAVAILABLE);
+        }
+
+        if (result.getBody() != null) {
             return ResponseEntity.ok(categoryService.add(category));
         }
 

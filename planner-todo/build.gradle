@@ -25,6 +25,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-aop'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     implementation 'org.springframework.cloud:spring-cloud-starter-feign:+'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-hystrix:+'
 
     implementation 'ru.javabegin.micro.planner:planner-entity'
     implementation 'ru.javabegin.micro.planner:planner-utils'
