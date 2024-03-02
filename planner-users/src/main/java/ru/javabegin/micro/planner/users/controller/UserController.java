@@ -7,9 +7,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ru.javabegin.micro.planner.entity.User;
-import ru.javabegin.micro.planner.users.mq.MessageProducer;
+import ru.javabegin.micro.planner.users.mq.func.MessageFuncActions;
 import ru.javabegin.micro.planner.users.search.UserSearchValues;
 import ru.javabegin.micro.planner.users.service.UserService;
 import ru.javabegin.micro.planner.utils.rest.webclient.UserWebClientBuilder;
@@ -40,7 +44,7 @@ public class UserController {
 
     public static final String ID_COLUMN = "id"; // имя столбца id
     private final UserService userService; // сервис для доступа к данным (напрямую к репозиториям не обращаемся)
-    private MessageProducer messageProducer; // утилита для отправки сообщений
+    private MessageFuncActions messageProducerService; // утилита для отправки сообщений
 
     // микросервисы для работы с пользователями
     private UserWebClientBuilder userWebClientBuilder;
@@ -71,9 +75,7 @@ public class UserController {
         // добавляем пользователя
         user = userService.add(user);
 
-        if (user != null) { // если пользователь добавился
-            messageProducer.initUserData(user.getId()); // отправляем сообщение в канал
-        }
+        messageProducerService.sendUserMessage(user.getId());
 
         return ResponseEntity.ok(user); // возвращаем созданный объект со сгенерированным id
 

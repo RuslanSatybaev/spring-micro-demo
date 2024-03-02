@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 
-/*
+/**
 
 Используем @RestController вместо обычного @Controller, чтобы все ответы сразу оборачивались в JSON,
 иначе пришлось бы добавлять лишние объекты в код, использовать @ResponseBody для ответа, указывать тип отправки JSON
