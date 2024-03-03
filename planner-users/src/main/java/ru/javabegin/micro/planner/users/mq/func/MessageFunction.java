@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 
 @Configuration
 @Getter
-public class MessageFunc {
+public class MessageFunction {
 
     // для того, чтобы считывать данные по требованию (а не постоянно) -
     // создаем поток, откуда данные будут отправляться уже в канал SCS

@@ -9,19 +9,19 @@ import reactor.core.publisher.Sinks;
 @Service
 @Getter
 public class MessageFuncActions {
-    private MessageFunc messageFunc;
+    private final MessageFunction messageFunction;
 
-    public MessageFuncActions(MessageFunc streamFunctions) {
-        this.messageFunc = streamFunctions;
+    public MessageFuncActions(MessageFunction streamFunctions) {
+        this.messageFunction = streamFunctions;
     }
 
     public void sendUserMessage(Long id) {
-        messageFunc
+        messageFunction
                 .getInnerBus()
                 .emitNext(
-                MessageBuilder.withPayload(id).build(),
-                Sinks.EmitFailureHandler.FAIL_FAST
-        );
+                        MessageBuilder.withPayload(id).build(),
+                        Sinks.EmitFailureHandler.FAIL_FAST
+                );
         System.out.println("Message sent: " + id);
     }
 }
